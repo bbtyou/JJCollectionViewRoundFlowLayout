@@ -27,6 +27,7 @@ static NSString *const JJCollectionViewRoundSection = @"com.JJCollectionViewRoun
 @interface JJCollectionReusableView : UICollectionReusableView
 
 @property (weak, nonatomic) JJCollectionViewRoundLayoutAttributes *myCacheAttr;
+@property (nonatomic, strong) UIImageView *imageView;
 
 @end
 
@@ -74,9 +75,24 @@ static NSString *const JJCollectionViewRoundSection = @"com.JJCollectionViewRoun
         } else {
             view.layer.borderColor = model.borderColor.CGColor;
         }
-        
+        if (model.backgroundImage) {
+            self.imageView.image = model.backgroundImage;
+        }else{
+            _imageView.image = nil;
+        }
         
     }
+}
+
+- (UIImageView *)imageView{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc]init];
+        //
+        [self addSubview:_imageView];
+        _imageView.frame = self.bounds;
+    }
+    
+    return _imageView;
 }
 
 @end

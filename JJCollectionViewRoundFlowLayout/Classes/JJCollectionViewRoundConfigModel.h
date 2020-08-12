@@ -19,6 +19,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// 背景颜色
 @property (strong, nonatomic) UIColor *backgroundColor;
+@property (strong, nonatomic) UIImage *backgroundImage;
 
 /// 投影相关参数
 @property (strong, nonatomic) UIColor *shadowColor;
