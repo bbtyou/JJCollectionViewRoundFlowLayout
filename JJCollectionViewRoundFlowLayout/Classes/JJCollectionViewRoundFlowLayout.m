@@ -109,6 +109,7 @@ static NSString *const JJCollectionViewRoundSection = @"com.JJCollectionViewRoun
     self = [super init];
     if (self) {
         self.isRoundEnabled = YES;
+        [self registerClass:[JJCollectionReusableView class] forDecorationViewOfKind:JJCollectionViewRoundSection];
     }
     return self;
 }
@@ -131,7 +132,7 @@ static NSString *const JJCollectionViewRoundSection = @"com.JJCollectionViewRoun
     }
     
     //1.初始化
-    [self registerClass:[JJCollectionReusableView class] forDecorationViewOfKind:JJCollectionViewRoundSection];
+    
     [self.decorationViewAttrs removeAllObjects];
     
     for (NSInteger section = 0; section < sections; section++) {
@@ -351,6 +352,22 @@ static NSString *const JJCollectionViewRoundSection = @"com.JJCollectionViewRoun
     }
     
     return attrs;
+}
+
+- (nullable UICollectionViewLayoutAttributes *)layoutAttributesForDecorationViewOfKind:(NSString*)elementKind atIndexPath:(NSIndexPath *)indexPath
+{
+    if ([elementKind isEqualToString:JJCollectionViewRoundSection]) {
+        if (self.decorationViewAttrs.count > indexPath.section) {
+            return [self.decorationViewAttrs objectAtIndex:indexPath.section];
+        }else{
+            JJCollectionViewRoundLayoutAttributes *attr = [JJCollectionViewRoundLayoutAttributes layoutAttributesForDecorationViewOfKind:JJCollectionViewRoundSection withIndexPath:indexPath];
+            attr.frame = CGRectZero;
+            attr.zIndex = -1;
+            
+            return attr;
+        }
+    }
+    return [super layoutAttributesForDecorationViewOfKind:elementKind atIndexPath:indexPath];
 }
 
 #pragma mark - other
